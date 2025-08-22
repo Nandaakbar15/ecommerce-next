@@ -1,15 +1,8 @@
-import { getEmployeeById } from "@/app/lib/controllers/dataEmployeeController";
-import { prisma } from "@/app/lib/prisma";
+import { deleteEmployee, getEmployeeById, updateEmployee } from "@/app/lib/controllers/dataEmployeeController";
 import { NextResponse } from "next/server";
 
-interface Params {
-  params: {
-    id_karyawan: string;
-  };
-}
-
-export async function GET(req: Request, { params }: Params) {
-  const { id_karyawan } = params;
+export async function GET(req: Request, context: { params: Promise<{ id_karyawan: string }> }) {
+  const { id_karyawan } = await context.params;
 
   const employeeId = parseInt(id_karyawan);
 
@@ -23,6 +16,17 @@ export async function GET(req: Request, { params }: Params) {
     );
   }
 
-
   return NextResponse.json(employee);
+}
+
+export async function PUT(req: Request, context: { params: Promise<{ id_karyawan: string }> }) {
+  const {id_karyawan} = await context.params;
+
+  return await updateEmployee(req, parseInt(id_karyawan));
+}
+
+export async function DELETE(req: Request, context: { params: Promise<{ id_karyawan: string }> }) {
+  const {id_karyawan} = await context.params;
+
+  return await deleteEmployee(req, parseInt(id_karyawan));
 }

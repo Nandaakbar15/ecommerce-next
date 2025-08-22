@@ -27,7 +27,15 @@ export function BtnAdd() {
 export function BtnChange() {
     return (
         <div className="button-update">
-            <button type="submit" className="bg-blue-400 rounded-lg px-4 py-2 inline-block">Ubah</button>
+            <button className="bg-slate-400 rounded-lg px-4 py-2 inline-block text-white hover:bg-slate-700 font-bold" type="submit">Ubah</button>
+        </div>
+    );
+}
+
+export function BtnBack() {
+    return (
+        <div className="button-back">
+            <button type="submit" className="bg-slate-300 rounded-lg px-4 py-2 inline-block hover:bg-slate-500 font-bold">Kembali</button>
         </div>
     );
 }
@@ -35,7 +43,7 @@ export function BtnChange() {
 export function BtnDelete({onClick}: ButtonWithClickProps) {
     return (
         <div className="button-delete">
-            <button className="bg-red-500 rounded-lg px-4 py-2 inline-block" onClick={onClick}></button>
+            <button className="bg-red-500 rounded-lg px-4 py-2 inline-block text-white hover:bg-red-700 font-bold" onClick={onClick}>Hapus</button>
         </div>
     );
 }

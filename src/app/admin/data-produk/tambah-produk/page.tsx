@@ -1,10 +1,11 @@
 'use client';
-import { BtnAdd } from "@/components/Button";
+import { BtnAdd, BtnBack } from "@/components/Button";
 import SideBar from "@/components/Sidebar"
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Modal from "@/components/Modal";
 import { useRouter } from 'next/navigation';
+import Link from "next/link";
 
 type Category = {
   id_kategori: number;
@@ -143,6 +144,9 @@ export default function FormTambahProdukAdmin() {
                         {showModal && <Modal show={showModal} onClose={() => setShowModal(false)} message={message} />}
                     </div>
                 </div>
+                <Link href={'/admin/data-produk'}>
+                   <BtnBack/>                 
+                </Link>
             </div>
         </div>
     );

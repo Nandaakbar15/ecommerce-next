@@ -1,7 +1,7 @@
 import type { Category } from "./Category";
 
 export type Product = {
-  id_produk?: number; // optional kalau masih auto increment
+  id_produk: number; // optional kalau masih auto increment
   name: string;
   id_kategori: number; // FK ke Category
   description: string;

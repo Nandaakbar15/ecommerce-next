@@ -57,3 +57,50 @@ export async function createEmployee(req: Request) {
         });
     }
 }
+
+export async function updateEmployee(req: Request, id_karyawan: number) {
+    try {
+        const {nama, alamat, no_hp, jabatan} = await req.json();
+        const updateData = {
+            nama,
+            alamat,
+            no_hp,
+            jabatan
+        }
+
+        await prisma.employee.update({
+            where: {id_karyawan: id_karyawan},
+            data: updateData
+        });
+
+        return NextResponse.json({
+            'statusCode': 200,
+            'message': 'Successfully update the data!'
+        });
+    } catch(error) {
+        console.error("Error : ", error);
+        return NextResponse.json({
+            'statusCode': 404,
+            'message': 'Error! Could not update the data.'
+        })
+    }
+}
+
+export async function deleteEmployee(req: Request, id_karyawan: number) {
+    try {
+        await prisma.employee.delete({
+            where: {id_karyawan: id_karyawan}
+        });
+
+        return NextResponse.json({
+            'statusCode': 200,
+            'message': 'Successfully delete the data!'
+        });
+    } catch(error) {
+        console.error("Error : ", error);
+        return NextResponse.json({
+            'statusCode': 404,
+            'message': 'Error! Could not delete the data!'
+        });
+    }
+}

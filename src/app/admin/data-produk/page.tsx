@@ -5,9 +5,16 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
 import { Product } from "@/app/types/Product";
+import Modal from "@/components/Modal";
+import { useRouter } from "next/navigation";
+import { BtnDelete } from "@/components/Button";
+
 
 export default function ProductDataAdmin() {
     const [products, setProducts] = useState<Product[]>([]);
+    const [message, setMessage] = useState("");
+    const [showModal, setShowModal] = useState(false);
+    const navigate = useRouter()
     
     const getProducts = async() => {
         try {
@@ -18,11 +25,29 @@ export default function ProductDataAdmin() {
         }
     }
 
+    const deleteProduk = async(id_produk: number) => {
+        try {
+            const response = await axios.delete(`/api/product/${id_produk}`);
+
+            setMessage(response.data.message);
+            setShowModal(true);
+
+            // refresh the data
+            getProducts();
+
+            setTimeout(() => {
+                setShowModal(false);
+                navigate.push('/admin/data-produk');
+            }, 2000);
+        } catch(error) {    
+            console.error("Error : ", error);
+        }
+    }
+
     useEffect(() => {
         getProducts();
     }, [])
     
-
 
     return (
         <div className="flex h-screen">
@@ -60,14 +85,14 @@ export default function ProductDataAdmin() {
                                     <Link className="inline-block rounded-lg bg-blue-500 px-4 py-2 text-white font-medium hover:bg-blue-600 transition" href={`/admin/data-produk/ubah-produk/${product.id_produk}`}>Edit</Link>
                                 </td>
                                 <td className="border border-gray-300 px-4 py-2">
-                                    <button className="bg-red-500 rounded-lg inline-block px-4 py-2">Hapus</button>
+                                    <BtnDelete onClick={() => deleteProduk(product.id_produk)}/>
                                 </td>
                             </tr>
                         )))}
-                        
                     </tbody>
                 </table>
                 </div>
+                {showModal && <Modal show={showModal} onClose={() => setShowModal(false)} message={message} />}
             </div>
         </div>
     );
